@@ -1,0 +1,40 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".QuestionDetailFragment">
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/question_subject_english"
+            style="?android:attr/textAppearanceLarge" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"/>
+        <TextView
+            android:id="@+id/question_subject_chinese"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Question"/>
+        <TextView
+            android:id="@+id/question_detail_content"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:padding="16dp"/>
+    </LinearLayout>
+    <Button style="?android:buttonBarButtonStyle"
+        android:id="@+id/go_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/button_material_dark"
+        android:text="GO" />
+
+</LinearLayout>
