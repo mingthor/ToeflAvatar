@@ -71,6 +71,7 @@ public class QuestionListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getResources().getXml(R.xml.data);
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<DummyContent.QuestionItem>(
                 getActivity(),

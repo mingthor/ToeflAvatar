@@ -1,8 +1,12 @@
 package com.sequoiabridge.captain.toeflavatar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+
+import com.sequoiabridge.captain.toeflavatar.dummy.DummyContent;
 
 
 /**
@@ -29,12 +33,20 @@ public class QuestionListActivity extends FragmentActivity
      * device.
      */
     private boolean mTwoPane;
+    private DummyContent mLibrary;
+    private static boolean mLibraryInitialized = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question_list);
 
+        // populate the data only once
+        if(! mLibraryInitialized) {
+            mLibrary = new DummyContent(getResources().getXml(R.xml.data));
+            mLibraryInitialized = true;
+        }
+
+        setContentView(R.layout.activity_question_list);
         if (findViewById(R.id.question_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and

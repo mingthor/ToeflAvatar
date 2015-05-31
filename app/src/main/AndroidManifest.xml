@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sequoiabridge.captain.toeflavatar" >
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -23,14 +25,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".QuestionListActivity" />
-        </activity>
-        <activity
-            android:name=".PracticeActivity"
-            android:label="@string/title_activity_practice"
-            android:parentActivityName=".QuestionDetailActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sequoiabridge.captain.toeflavatar.QuestionDetailActivity" />
         </activity>
     </application>
 

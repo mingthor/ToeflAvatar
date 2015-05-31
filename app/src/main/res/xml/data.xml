@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <id>1</id>
+        <title>An important book to you</title>
+        <title_chinese>一本重要的书</title_chinese>
+        <question>Talk about a book you have read that was important to you for some reason. Explain why the book was important to you. Give specific details and examples to explain your answer.</question>
+    </item>
+    <item>
+        <id>2</id>
+        <title>The influence of television to society</title>
+        <title_chinese>电视对社会的影响</title_chinese>
+        <question>Some people believe that television has had a positive influence on society. Others believe it has had a negative influence on society. Why do you agree with and why? Use details and examples to explain your opinion.</question>
+    </item>
+    <item>
+        <id>3</id>
+        <title>A place you go to often</title>
+        <title_chinese>一个你常去的地方</title_chinese>
+        <question>Choose a place you go to often that is important to you and explain why it is important. Please include specific details in your explanation.</question>
+    </item>
+    <item>
+        <id>4</id>
+        <title>General education vs special education</title>
+        <title_chinese>通才教育还是专才教育</title_chinese>
+        <question>Some college students choose to take courses in a variety of subject areas in order to get a broad education. Others choose to focus on a single subject area in order to have a deeper understanding of that area. Which approach to course selection do you think is better for students and why.</question>
+    </item>
+</PreferenceScreen>
