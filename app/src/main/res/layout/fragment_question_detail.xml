@@ -1,33 +1,29 @@
 <LinearLayout
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".QuestionDetailFragment">
     <LinearLayout android:orientation="vertical"
-        android:layout_width="match_parent" android:padding="16dp"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent" android:layout_height="wrap_content">
         <TextView
             android:id="@+id/question_subject_english"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Title"/>
+            style="@style/TextAppearance.AppCompat.Headline"/>
         <TextView
             android:id="@+id/question_subject_chinese"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Title"/>
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent" android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent" android:layout_height="wrap_content"
             style="@style/TextAppearance.AppCompat.Title" android:text="Question"/>
         <TextView
             android:id="@+id/question_detail_content"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:textIsSelectable="true" android:padding="16dp"/>
+            android:textIsSelectable="true" android:padding="6dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +48,7 @@
             android:layout_width="match_parent" android:layout_height="wrap_content"
             style="@style/TextAppearance.AppCompat.Title" android:text="Records"/>
         <ListView
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:id="@+id/listView" />
+            android:id="@+id/listViewRecords"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
     </LinearLayout>
 </LinearLayout>

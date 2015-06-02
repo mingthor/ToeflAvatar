@@ -1,16 +1,23 @@
 package com.sequoiabridge.captain.toeflavatar;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 
-import com.sequoiabridge.captain.toeflavatar.dummy.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.DataContract;
+import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
 
 /**
  * A fragment representing a single Question detail screen.
@@ -32,6 +39,12 @@ public class QuestionDetailFragment extends Fragment {
 
     public View.OnClickListener mOnClickCallback;
 
+    private ListView mRecordsListView = null;
+    private RecordingDbHelper mDBHelper = null;
+    private SimpleCursorAdapter mRecordCursorAdapter = null;
+
+    private static final String LOG_TAG = "QuestionDetailFragment" +
+            "";
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -65,6 +78,10 @@ public class QuestionDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.question_detail_content)).setText(mItem.content);
             (rootView.findViewById(R.id.btnStartRecording)).setOnClickListener(mOnClickCallback);
             (rootView.findViewById(R.id.btnStartPlaying)).setOnClickListener(mOnClickCallback);
+            mRecordsListView = (ListView) rootView.findViewById(R.id.listViewRecords);
+            boolean listViewEmpty = mRecordsListView == null;
+            Log.d(LOG_TAG, "onCreateView bool listViewEmpty == " + listViewEmpty);
+            populateRecordingsList(rootView.getContext());
         }
 
         return rootView;
@@ -78,5 +95,62 @@ public class QuestionDetailFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnClickListener");
         }
+        mDBHelper = new RecordingDbHelper(activity);
+        Log.d(LOG_TAG, "onAttach");
+    }
+
+
+    public void populateRecordingsList(Context context) {
+        Log.d(LOG_TAG, "populateRecordingsList");
+        Cursor cursor = fetchAllRecordings();
+
+        // The desired columns to be bound
+        String[] projection = {
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
+        };
+
+        // the XML defined views which the data will be bound to
+        int[] to = new int[] {
+                R.id.record_file,
+                R.id.record_timestamp,
+        };
+
+        mRecordCursorAdapter = new SimpleCursorAdapter(
+                context,
+                R.layout.record_item_view,
+                cursor,
+                projection,
+                to,
+                0);
+        mRecordsListView.setAdapter(mRecordCursorAdapter);
+        Log.d(LOG_TAG, "populateRecordingsList finished");
+    }
+
+    public Cursor fetchAllRecordings() {
+
+        if (mDBHelper == null) return null;
+        Log.d(LOG_TAG, "fetchAllRecordings");
+        SQLiteDatabase db = mDBHelper.getReadableDatabase();
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DataContract.RecordingEntry._ID,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
+        };
+
+        Cursor cursor = db.query(
+                DataContract.RecordingEntry.TABLE_NAME,  // The table to query
+                projection,                            // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+        if (cursor != null) cursor.moveToFirst();
+
+        return cursor;
     }
 }

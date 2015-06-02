@@ -1,12 +1,10 @@
 package com.sequoiabridge.captain.toeflavatar;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
-import com.sequoiabridge.captain.toeflavatar.dummy.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 
 
 /**

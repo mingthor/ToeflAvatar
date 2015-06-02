@@ -1,10 +1,7 @@
-package com.sequoiabridge.captain.toeflavatar.dummy;
+package com.sequoiabridge.captain.toeflavatar.data;
 
-import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
-
-import com.sequoiabridge.captain.toeflavatar.QuestionListActivity;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -25,18 +22,14 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static List<QuestionItem> ITEMS = new ArrayList<QuestionItem>();
+    public static List<QuestionItem> ITEMS = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static Map<String, QuestionItem> ITEM_MAP = new HashMap<String, QuestionItem>();
+    public static Map<String, QuestionItem> ITEM_MAP = new HashMap<>();
 
     public DummyContent(XmlResourceParser parser) {
-        //addItem(new QuestionItem("1", "An important book to you", "一本重要的书", ""));
-        //addItem(new QuestionItem("2", "Television's influence on society", "电视对社会的影响"));
-        //addItem(new QuestionItem("3", "A place you go very often", "一个你常去的地方"));
-        //addItem(new QuestionItem("4", "General or special education", "通才教育或专才教育"));
         try {
             int eventType = -1;
             QuestionItem question = null;
@@ -50,6 +43,8 @@ public class DummyContent {
                         if (name.equals("item")) {
                             question = new QuestionItem();
                         } else if (question != null) {
+                            //TODO:
+                            // need to use switch, and use Contract
                             if (name.equals("id"))
                                 question.id = parser.nextText();
                             else if (name.equals("title"))
@@ -71,9 +66,7 @@ public class DummyContent {
                 eventType = parser.next();
             }
             Log.d("XML file parser", "Done");
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
     }

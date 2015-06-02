@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-import com.sequoiabridge.captain.toeflavatar.dummy.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 
 /**
  * A list fragment representing a list of Questions. This fragment
@@ -47,7 +47,7 @@ public class QuestionListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        void onItemSelected(String id);
     }
 
     /**
@@ -73,7 +73,7 @@ public class QuestionListFragment extends ListFragment {
 
         getResources().getXml(R.xml.data);
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.QuestionItem>(
+        setListAdapter(new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,

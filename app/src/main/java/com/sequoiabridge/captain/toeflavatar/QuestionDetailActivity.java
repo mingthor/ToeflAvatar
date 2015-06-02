@@ -1,12 +1,16 @@
 package com.sequoiabridge.captain.toeflavatar;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,8 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
+import com.sequoiabridge.captain.toeflavatar.data.DataContract;
+import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
+
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 
 /**
@@ -33,6 +45,10 @@ public class QuestionDetailActivity extends AppCompatActivity
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private static String mFileName = null;
+    private RecordingDbHelper mDBHelper;
+    private static boolean mInitOnce = true;
+    boolean mStartRecording = true;
+    private SimpleCursorAdapter mRecordCursorAdapter;
     private static final String LOG_TAG = "QuestionDetailActivity";
 
     @Override
@@ -40,20 +56,32 @@ public class QuestionDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
 
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
-        Log.d(LOG_TAG, "onCreate mFileName = " + mFileName);
+        if (mInitOnce) {
+            mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+            mFileName += "/avatar";
+            File file = new File(mFileName);
+            if(! file.exists()) {
+                if(! file.mkdir())
+                    Log.e(LOG_TAG, "onCreate mkdir failed with the following path" + mFileName);
+            }
+            mFileName += "/audiorecordtest.3gp";
+            Log.d(LOG_TAG, "onCreate mFileName = " + mFileName);
 
-        if (mPlayer != null) {
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    if (mPlayer != null && mPlayer.isPlaying()) {
-                        stopPlaying();
+            mDBHelper = new RecordingDbHelper(this);
+
+            if (mPlayer != null) {
+                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        if (mPlayer != null && mPlayer.isPlaying()) {
+                            stopPlaying();
+                        }
                     }
-                }
-            });
+                });
+            }
+            mInitOnce = true;
         }
+
         // Show the Up button in the action bar.
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -145,10 +173,13 @@ public class QuestionDetailActivity extends AppCompatActivity
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
-    }
 
-    boolean mStartRecording = true;
-    boolean mStartPlaying = true;
+        SQLiteDatabase db = mDBHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME, mFileName);
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP, DateFormat.getDateTimeInstance().format(new Date()));
+        db.insert(DataContract.RecordingEntry.TABLE_NAME, null, values);
+    }
 
     @Override
     public void onClick(View v) {
@@ -167,4 +198,5 @@ public class QuestionDetailActivity extends AppCompatActivity
                 break;
         }
     }
+
 }
