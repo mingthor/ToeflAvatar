@@ -1,24 +1,18 @@
 package com.sequoiabridge.captain.toeflavatar;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.sequoiabridge.captain.toeflavatar.data.DataContract;
@@ -49,6 +43,7 @@ public class QuestionDetailActivity extends AppCompatActivity
     private static boolean mInitOnce = true;
     boolean mStartRecording = true;
     private SimpleCursorAdapter mRecordCursorAdapter;
+    private QuestionDetailFragment mDetailFragment = null;
     private static final String LOG_TAG = "QuestionDetailActivity";
 
     @Override
@@ -100,10 +95,10 @@ public class QuestionDetailActivity extends AppCompatActivity
             Bundle arguments = new Bundle();
             arguments.putString(QuestionDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(QuestionDetailFragment.ARG_ITEM_ID));
-            QuestionDetailFragment fragment = new QuestionDetailFragment();
-            fragment.setArguments(arguments);
+            mDetailFragment = new QuestionDetailFragment();
+            mDetailFragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.question_detail_container, fragment)
+                    .add(R.id.question_detail_container, mDetailFragment)
                     .commit();
         }
     }
@@ -174,11 +169,12 @@ public class QuestionDetailActivity extends AppCompatActivity
         mRecorder.release();
         mRecorder = null;
 
-        SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME, mFileName);
-        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP, DateFormat.getDateTimeInstance().format(new Date()));
-        db.insert(DataContract.RecordingEntry.TABLE_NAME, null, values);
+        mDBHelper.insert(mFileName, DateFormat.getDateTimeInstance().format(new Date()));
+
+        if (mDetailFragment == null)
+            Log.e(LOG_TAG, "stopRecording detailFragment is null, fragment manager cannot find question_detail_fragment");
+        else
+            mDetailFragment.reload();
     }
 
     @Override

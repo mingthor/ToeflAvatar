@@ -7,9 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -79,9 +83,8 @@ public class QuestionDetailFragment extends Fragment {
             (rootView.findViewById(R.id.btnStartRecording)).setOnClickListener(mOnClickCallback);
             (rootView.findViewById(R.id.btnStartPlaying)).setOnClickListener(mOnClickCallback);
             mRecordsListView = (ListView) rootView.findViewById(R.id.listViewRecords);
-            boolean listViewEmpty = mRecordsListView == null;
-            Log.d(LOG_TAG, "onCreateView bool listViewEmpty == " + listViewEmpty);
             populateRecordingsList(rootView.getContext());
+            registerForContextMenu(mRecordsListView);
         }
 
         return rootView;
@@ -99,6 +102,27 @@ public class QuestionDetailFragment extends Fragment {
         Log.d(LOG_TAG, "onAttach");
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.menu_delete_item:
+                return true;
+            case R.id.menu_play_item:
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     public void populateRecordingsList(Context context) {
         Log.d(LOG_TAG, "populateRecordingsList");
@@ -152,5 +176,12 @@ public class QuestionDetailFragment extends Fragment {
         if (cursor != null) cursor.moveToFirst();
 
         return cursor;
+    }
+
+    public void reload() {
+        Log.d(LOG_TAG, "reload");
+        if (mRecordCursorAdapter != null) {
+            mRecordCursorAdapter.changeCursor(fetchAllRecordings());
+        }
     }
 }
