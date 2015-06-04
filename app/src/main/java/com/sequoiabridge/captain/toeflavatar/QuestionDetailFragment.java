@@ -114,8 +114,14 @@ public class QuestionDetailFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info =
                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Log.d(LOG_TAG, "item selected row id = " + info.id);
         switch (item.getItemId()) {
             case R.id.menu_delete_item:
+                String selection = DataContract.RecordingEntry._ID + "=?";
+                String[] selectionArgs = {String.valueOf(info.id)};
+                mDBHelper.getWritableDatabase().delete(DataContract.RecordingEntry.TABLE_NAME,
+                        selection, selectionArgs);
+                reload();
                 return true;
             case R.id.menu_play_item:
                 return true;

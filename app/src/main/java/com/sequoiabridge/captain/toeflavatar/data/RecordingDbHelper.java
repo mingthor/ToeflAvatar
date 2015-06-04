@@ -21,7 +21,7 @@ public class RecordingDbHelper extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DataContract.RecordingEntry.TABLE_NAME + " (" +
-                    DataContract.RecordingEntry._ID + " INTEGER PRIMARY KEY," +
+                    DataContract.RecordingEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
                     DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME + TEXT_TYPE +
                     // Any other options for the CREATE command
