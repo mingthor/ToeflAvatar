@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -14,14 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-
 import com.sequoiabridge.captain.toeflavatar.data.DataContract;
 import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * A fragment representing a single Question detail screen.
@@ -41,14 +46,17 @@ public class QuestionDetailFragment extends Fragment {
      */
     private DummyContent.QuestionItem mItem;
 
-    public View.OnClickListener mOnClickCallback;
+    private IMediaController mMediaController;
 
     private ListView mRecordsListView = null;
     private RecordingDbHelper mDBHelper = null;
     private SimpleCursorAdapter mRecordCursorAdapter = null;
+    boolean mStartRecording = true;
+    private String mFileName;
+    private View.OnClickListener mOnRecordClickCallback;
 
-    private static final String LOG_TAG = "QuestionDetailFragment" +
-            "";
+    private static final String LOG_TAG = "QuestionDetailFragment";
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -59,6 +67,15 @@ public class QuestionDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += "/avatar";
+        File file = new File(mFileName);
+        if(! file.exists()) {
+            if(! file.mkdir())
+                Log.e(LOG_TAG, "onCreate mkdir failed with the following path" + mFileName);
+        }
+        mFileName += "/audiorecordtest.3gp";
 
         // TODO:
         // to be able to recover the fragment content when press back button
@@ -75,13 +92,36 @@ public class QuestionDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_question_detail, container, false);
 
+        mOnRecordClickCallback = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.btnStartRecording:
+                        if (mStartRecording) {
+                            mMediaController.startRecording(mFileName);
+                            ((Button) v).setText("Stop recording");
+                        } else {
+                            mMediaController.stopRecording();
+                            mDBHelper.insert(mFileName, DateFormat.getDateTimeInstance().format(new Date()));
+                            ((Button) v).setText("Start recording");
+                            reload();
+                        }
+                        mStartRecording = !mStartRecording;
+                        break;
+                    case R.id.btnStartPlaying:
+                        mMediaController.startPlaying(mFileName);
+                        break;
+                }
+            }
+        };
+
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.question_subject_english)).setText(mItem.titleEnglish);
             ((TextView) rootView.findViewById(R.id.question_subject_chinese)).setText(mItem.titleChinese);
             ((TextView) rootView.findViewById(R.id.question_detail_content)).setText(mItem.content);
-            (rootView.findViewById(R.id.btnStartRecording)).setOnClickListener(mOnClickCallback);
-            (rootView.findViewById(R.id.btnStartPlaying)).setOnClickListener(mOnClickCallback);
+            (rootView.findViewById(R.id.btnStartRecording)).setOnClickListener(mOnRecordClickCallback);
+            (rootView.findViewById(R.id.btnStartPlaying)).setOnClickListener(mOnRecordClickCallback);
             mRecordsListView = (ListView) rootView.findViewById(R.id.listViewRecords);
             populateRecordingsList(rootView.getContext());
             registerForContextMenu(mRecordsListView);
@@ -94,9 +134,9 @@ public class QuestionDetailFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mOnClickCallback = (View.OnClickListener) activity;
+            mMediaController = (IMediaController) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnClickListener");
+            throw new ClassCastException(activity.toString() + " must implement IMediaController");
         }
         mDBHelper = new RecordingDbHelper(activity);
         Log.d(LOG_TAG, "onAttach");

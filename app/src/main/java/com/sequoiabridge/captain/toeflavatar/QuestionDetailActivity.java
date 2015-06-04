@@ -1,27 +1,15 @@
 package com.sequoiabridge.captain.toeflavatar;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.SimpleCursorAdapter;
 
-import com.sequoiabridge.captain.toeflavatar.data.DataContract;
-import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
-
-import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
 
 
 /**
@@ -34,15 +22,12 @@ import java.util.Date;
  * more than a {@link QuestionDetailFragment}.
  */
 public class QuestionDetailActivity extends AppCompatActivity
-            implements View.OnClickListener {
+            implements IMediaController {
 
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
-    private static String mFileName = null;
-    private RecordingDbHelper mDBHelper;
+
     private static boolean mInitOnce = true;
-    boolean mStartRecording = true;
-    private SimpleCursorAdapter mRecordCursorAdapter;
     private QuestionDetailFragment mDetailFragment = null;
     private static final String LOG_TAG = "QuestionDetailActivity";
 
@@ -52,18 +37,6 @@ public class QuestionDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_question_detail);
 
         if (mInitOnce) {
-            mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFileName += "/avatar";
-            File file = new File(mFileName);
-            if(! file.exists()) {
-                if(! file.mkdir())
-                    Log.e(LOG_TAG, "onCreate mkdir failed with the following path" + mFileName);
-            }
-            mFileName += "/audiorecordtest.3gp";
-            Log.d(LOG_TAG, "onCreate mFileName = " + mFileName);
-
-            mDBHelper = new RecordingDbHelper(this);
-
             if (mPlayer != null) {
                 mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -120,22 +93,14 @@ public class QuestionDetailActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void onRecord(boolean start) {
-        if (start) {
-            startRecording();
-        } else {
-            stopRecording();
-        }
-    }
-
-    private void startPlaying() {
+    public void startPlaying(String filename) {
         if (mPlayer == null) {
             mPlayer = new MediaPlayer();
         } else {
             mPlayer.reset();
         }
         try {
-            mPlayer.setDataSource(mFileName);
+            mPlayer.setDataSource(filename);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
@@ -143,16 +108,16 @@ public class QuestionDetailActivity extends AppCompatActivity
         }
     }
 
-    private void stopPlaying() {
+    public void stopPlaying() {
         mPlayer.release();
         mPlayer = null;
     }
 
-    private void startRecording() {
+    public void startRecording(String filename) {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
+        mRecorder.setOutputFile(filename);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -164,35 +129,9 @@ public class QuestionDetailActivity extends AppCompatActivity
         mRecorder.start();
     }
 
-    private void stopRecording() {
+    public void stopRecording() {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
-
-        mDBHelper.insert(mFileName, DateFormat.getDateTimeInstance().format(new Date()));
-
-        if (mDetailFragment == null)
-            Log.e(LOG_TAG, "stopRecording detailFragment is null, fragment manager cannot find question_detail_fragment");
-        else
-            mDetailFragment.reload();
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnStartRecording:
-                onRecord(mStartRecording);
-                if (mStartRecording) {
-                    ((Button) v).setText("Stop recording");
-                } else {
-                    ((Button) v).setText("Start recording");
-                }
-                mStartRecording = !mStartRecording;
-                break;
-            case R.id.btnStartPlaying:
-                startPlaying();
-                break;
-        }
-    }
-
 }
