@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<questions>
     <item>
         <id>1</id>
         <title>An important book to you</title>
@@ -24,4 +24,4 @@
         <title_chinese>通才教育还是专才教育</title_chinese>
         <question>Some college students choose to take courses in a variety of subject areas in order to get a broad education. Others choose to focus on a single subject area in order to have a deeper understanding of that area. Which approach to course selection do you think is better for students and why.</question>
     </item>
-</PreferenceScreen>
+</questions>

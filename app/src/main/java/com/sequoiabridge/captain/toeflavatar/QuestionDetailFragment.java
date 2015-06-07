@@ -40,22 +40,18 @@ public class QuestionDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
-
+    private static final String LOG_TAG = "QuestionDetailFragment";
+    boolean mStartRecording = true;
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.QuestionItem mItem;
-
+    private DummyContent.QuestionItem mItem = null;
     private IMediaController mMediaController;
-
     private ListView mRecordsListView = null;
     private RecordingDbHelper mDBHelper = null;
     private SimpleCursorAdapter mRecordCursorAdapter = null;
-    boolean mStartRecording = true;
     private String mFileName;
     private View.OnClickListener mOnRecordClickCallback;
-
-    private static final String LOG_TAG = "QuestionDetailFragment";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -92,6 +88,9 @@ public class QuestionDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_question_detail, container, false);
 
+        if (mItem == null)
+            Log.e(LOG_TAG, "onCreateView mItem is null");
+
         mOnRecordClickCallback = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +101,7 @@ public class QuestionDetailFragment extends Fragment {
                             ((Button) v).setText("Stop recording");
                         } else {
                             mMediaController.stopRecording();
-                            mDBHelper.insert(mFileName, DateFormat.getDateTimeInstance().format(new Date()));
+                            mDBHelper.insert(mItem.id, mFileName, DateFormat.getDateTimeInstance().format(new Date()));
                             ((Button) v).setText("Start recording");
                             reload();
                         }
@@ -199,13 +198,20 @@ public class QuestionDetailFragment extends Fragment {
 
     public Cursor fetchAllRecordings() {
 
-        if (mDBHelper == null) return null;
-        Log.d(LOG_TAG, "fetchAllRecordings");
+        if (mDBHelper == null) {
+            Log.e(LOG_TAG, "fetchAllRecordings mDBHelper == null");
+            return null;
+        }
+        if (mItem == null) {
+            Log.e(LOG_TAG, "fetchAllRecordings mItem == null");
+        }
+
         SQLiteDatabase db = mDBHelper.getReadableDatabase();
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
                 DataContract.RecordingEntry._ID,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID,
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
         };
@@ -213,8 +219,8 @@ public class QuestionDetailFragment extends Fragment {
         Cursor cursor = db.query(
                 DataContract.RecordingEntry.TABLE_NAME,  // The table to query
                 projection,                            // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID + "=?",               // The columns for the WHERE clause
+                new String[]{mItem.id},                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 null                                 // The sort order

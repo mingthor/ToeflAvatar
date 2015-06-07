@@ -6,15 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 /**
  * Database helper
  */
 public class RecordingDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Recording.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -22,6 +19,7 @@ public class RecordingDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DataContract.RecordingEntry.TABLE_NAME + " (" +
                     DataContract.RecordingEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID + TEXT_TYPE + COMMA_SEP +
                     DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
                     DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME + TEXT_TYPE +
                     // Any other options for the CREATE command
@@ -46,9 +44,10 @@ public class RecordingDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void insert(String filename, String timestamp) {
+    public void insert(String questionId, String filename, String timestamp) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID, questionId);
         values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME, filename);
         values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP, timestamp);
         db.insert(DataContract.RecordingEntry.TABLE_NAME, null, values);
@@ -60,6 +59,7 @@ public class RecordingDbHelper extends SQLiteOpenHelper {
         // you will actually use after this query.
         String[] projection = {
                 DataContract.RecordingEntry._ID,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID,
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
         };
