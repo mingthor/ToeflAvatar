@@ -26,6 +26,7 @@ import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -41,6 +42,7 @@ public class QuestionDetailFragment extends Fragment {
      */
     public static final String ARG_ITEM_ID = "item_id";
     private static final String LOG_TAG = "QuestionDetailFragment";
+    private static final String STORAGE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/avatar";
     boolean mStartRecording = true;
     /**
      * The dummy content this fragment is presenting.
@@ -64,14 +66,11 @@ public class QuestionDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/avatar";
-        File file = new File(mFileName);
+        File file = new File(STORAGE_PATH);
         if(! file.exists()) {
             if(! file.mkdir())
-                Log.e(LOG_TAG, "onCreate mkdir failed with the following path" + mFileName);
+                Log.e(LOG_TAG, "onCreate mkdir failed with the following path" + STORAGE_PATH);
         }
-        mFileName += "/audiorecordtest.3gp";
 
         // TODO:
         // to be able to recover the fragment content when press back button
@@ -94,22 +93,18 @@ public class QuestionDetailFragment extends Fragment {
         mOnRecordClickCallback = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.btnStartRecording:
-                        if (mStartRecording) {
-                            mMediaController.startRecording(mFileName);
-                            ((Button) v).setText("Stop recording");
-                        } else {
-                            mMediaController.stopRecording();
-                            mDBHelper.insert(mItem.id, mFileName, DateFormat.getDateTimeInstance().format(new Date()));
-                            ((Button) v).setText("Start recording");
-                            reload();
-                        }
-                        mStartRecording = !mStartRecording;
-                        break;
-                    case R.id.btnStartPlaying:
-                        mMediaController.startPlaying(mFileName);
-                        break;
+                if (v.getId() == R.id.btnStartRecording) {
+                    if (mStartRecording) {
+                        mFileName = getUniqueFilename(STORAGE_PATH);
+                        mMediaController.startRecording(mFileName);
+                        ((Button) v).setText("Stop recording");
+                    } else {
+                        mMediaController.stopRecording();
+                        mDBHelper.insert(mItem.id, mFileName, DateFormat.getDateTimeInstance().format(new Date()));
+                        ((Button) v).setText("Start recording");
+                        reload();
+                    }
+                    mStartRecording = !mStartRecording;
                 }
             }
         };
@@ -120,7 +115,6 @@ public class QuestionDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.question_subject_chinese)).setText(mItem.titleChinese);
             ((TextView) rootView.findViewById(R.id.question_detail_content)).setText(mItem.content);
             (rootView.findViewById(R.id.btnStartRecording)).setOnClickListener(mOnRecordClickCallback);
-            (rootView.findViewById(R.id.btnStartPlaying)).setOnClickListener(mOnRecordClickCallback);
             mRecordsListView = (ListView) rootView.findViewById(R.id.listViewRecords);
             populateRecordingsList(rootView.getContext());
             registerForContextMenu(mRecordsListView);
@@ -154,16 +148,37 @@ public class QuestionDetailFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info =
                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         Log.d(LOG_TAG, "item selected row id = " + info.id);
+
         switch (item.getItemId()) {
-            case R.id.menu_delete_item:
+            case R.id.menu_delete_item: {
                 String selection = DataContract.RecordingEntry._ID + "=?";
                 String[] selectionArgs = {String.valueOf(info.id)};
                 mDBHelper.getWritableDatabase().delete(DataContract.RecordingEntry.TABLE_NAME,
                         selection, selectionArgs);
                 reload();
                 return true;
-            case R.id.menu_play_item:
+            }
+            case R.id.menu_play_item: {
+                String[] projection = {DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME};
+                String selection = DataContract.RecordingEntry._ID + "=?";
+                String[] selectionArgs = {String.valueOf(info.id)};
+                SQLiteDatabase db = mDBHelper.getReadableDatabase();
+                Cursor cursor = db.query(
+                        DataContract.RecordingEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    String filename = cursor.getString(
+                            cursor.getColumnIndexOrThrow(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME)
+                    );
+                    cursor.close();
+                    mMediaController.startPlaying(filename);
+                }
                 return true;
+            }
             default:
                 return super.onContextItemSelected(item);
         }
@@ -235,5 +250,17 @@ public class QuestionDetailFragment extends Fragment {
         if (mRecordCursorAdapter != null) {
             mRecordCursorAdapter.changeCursor(fetchAllRecordings());
         }
+    }
+
+    private String getUniqueFilename(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            Log.e(LOG_TAG, "getUniqueFilename failed because the path specified does not exists: " + path);
+            return null;
+        }
+        String format = "yyyy-MM-dd-HH-mm-ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String filename = "/voice-" + sdf.format(new Date()) + ".3gp";
+        return path + filename;
     }
 }

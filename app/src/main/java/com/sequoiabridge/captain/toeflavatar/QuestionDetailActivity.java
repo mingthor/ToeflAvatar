@@ -24,12 +24,11 @@ import java.io.IOException;
 public class QuestionDetailActivity extends AppCompatActivity
             implements IMediaController {
 
+    private static final String LOG_TAG = "QuestionDetailActivity";
+    private static boolean mInitOnce = true;
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
-
-    private static boolean mInitOnce = true;
     private QuestionDetailFragment mDetailFragment = null;
-    private static final String LOG_TAG = "QuestionDetailActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +108,7 @@ public class QuestionDetailActivity extends AppCompatActivity
     }
 
     public void stopPlaying() {
+        mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
     }
@@ -133,5 +133,17 @@ public class QuestionDetailActivity extends AppCompatActivity
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mPlayer != null) {
+            stopPlaying();
+        }
+        if (mRecorder != null) {
+            stopRecording();
+        }
     }
 }

@@ -33,24 +33,12 @@
             android:textIsSelectable="true" />
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnStartRecording"
+        style="?android:buttonBarStyle"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btnStartRecording"
-            style="?android:buttonBarStyle"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/material_blue_grey_800"
-            android:text="Start Recording" />
-        <Button
-            android:id="@+id/btnStartPlaying"
-            style="?android:buttonBarStyle"
-            android:layout_width="0dp" android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/accent_material_dark"
-            android:text="Start Playing" />
-    </LinearLayout>
+        android:background="@color/accent_material_dark"
+        android:text="Start Recording" />
 
     <LinearLayout
         android:layout_width="match_parent"
