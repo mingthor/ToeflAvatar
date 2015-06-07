@@ -24,4 +24,20 @@
         <title_chinese>通才教育还是专才教育</title_chinese>
         <question>Some college students choose to take courses in a variety of subject areas in order to get a broad education. Others choose to focus on a single subject area in order to have a deeper understanding of that area. Which approach to course selection do you think is better for students and why.</question>
     </item>
+    <item>
+        <id>5</id>
+        <title>What you miss most about home</title>
+        <title_chinese>最想念家乡的什么</title_chinese>
+        <question>What do you miss most about your home when you are away? Use specific examples or
+            details in your explanation.
+        </question>
+    </item>
+    <item>
+        <id>6</id>
+        <title>Study in a classroom or take online courses</title>
+        <title_chinese>在教室学习还是网上学习</title_chinese>
+        <question>Would you prefer to study in a classroom or take an online course? Use reasons and
+            details to support your response.
+        </question>
+    </item>
 </questions>

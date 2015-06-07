@@ -25,7 +25,6 @@ public class QuestionDetailActivity extends AppCompatActivity
             implements IMediaController {
 
     private static final String LOG_TAG = "QuestionDetailActivity";
-    private static boolean mInitOnce = true;
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private QuestionDetailFragment mDetailFragment = null;
@@ -34,20 +33,6 @@ public class QuestionDetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
-
-        if (mInitOnce) {
-            if (mPlayer != null) {
-                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        if (mPlayer != null && mPlayer.isPlaying()) {
-                            stopPlaying();
-                        }
-                    }
-                });
-            }
-            mInitOnce = true;
-        }
 
         // Show the Up button in the action bar.
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,13 +80,26 @@ public class QuestionDetailActivity extends AppCompatActivity
     public void startPlaying(String filename) {
         if (mPlayer == null) {
             mPlayer = new MediaPlayer();
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (mPlayer != null && mPlayer.isPlaying()) {
+                        stopPlaying();
+                    }
+                }
+            });
+            mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mPlayer.start();
+                }
+            });
         } else {
             mPlayer.reset();
         }
         try {
             mPlayer.setDataSource(filename);
-            mPlayer.prepare();
-            mPlayer.start();
+            mPlayer.prepareAsync();
         } catch (IOException e) {
             Log.e(LOG_TAG, "startPlaying() prepare() failed");
         }

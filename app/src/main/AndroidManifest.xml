@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sequoiabridge.captain.toeflavatar" >
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -21,11 +22,13 @@
         <activity
             android:name=".QuestionDetailActivity"
             android:label="@string/title_question_detail"
-            android:parentActivityName=".QuestionListActivity" >
+            android:parentActivityName=".QuestionListActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".QuestionListActivity" />
         </activity>
+
     </application>
 
 </manifest>
