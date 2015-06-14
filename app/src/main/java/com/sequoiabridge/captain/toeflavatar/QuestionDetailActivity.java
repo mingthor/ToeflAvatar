@@ -1,15 +1,13 @@
 package com.sequoiabridge.captain.toeflavatar;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
-import java.io.IOException;
+import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 
 
 /**
@@ -22,12 +20,12 @@ import java.io.IOException;
  * more than a {@link QuestionDetailFragment}.
  */
 public class QuestionDetailActivity extends AppCompatActivity
-            implements IMediaController {
+        implements View.OnClickListener {
 
     private static final String LOG_TAG = "QuestionDetailActivity";
-    private MediaRecorder mRecorder = null;
-    private MediaPlayer mPlayer = null;
     private QuestionDetailFragment mDetailFragment = null;
+    private RecordingDialogFragment mDialogFragment = null;
+    private DummyContent.QuestionItem mItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +45,9 @@ public class QuestionDetailActivity extends AppCompatActivity
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
+
+            mItem = DummyContent.ITEM_MAP.get(getIntent().getStringExtra(QuestionDetailFragment.ARG_ITEM_ID));
+
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
@@ -77,71 +78,31 @@ public class QuestionDetailActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void startPlaying(String filename) {
-        if (mPlayer == null) {
-            mPlayer = new MediaPlayer();
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    if (mPlayer != null && mPlayer.isPlaying()) {
-                        stopPlaying();
-                    }
-                }
-            });
-            mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mPlayer.start();
-                }
-            });
-        } else {
-            mPlayer.reset();
-        }
-        try {
-            mPlayer.setDataSource(filename);
-            mPlayer.prepareAsync();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "startPlaying() prepare() failed");
-        }
+    public void showRecordingDialog() {
+        mDialogFragment = RecordingDialogFragment.newInstance("Recording", "Recording in progress");
+        mDialogFragment.show(getFragmentManager(), "Recording");
     }
 
-    public void stopPlaying() {
-        mPlayer.stop();
-        mPlayer.release();
-        mPlayer = null;
-    }
-
-    public void startRecording(String filename) {
-        mRecorder = new MediaRecorder();
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(filename);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
-        try {
-            mRecorder.prepare();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-        }
-
-        mRecorder.start();
-    }
-
-    public void stopRecording() {
-        mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
+    public void dismissRecordingDialog() {
+        if (mDialogFragment != null)
+            mDialogFragment.dismiss();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        if (mPlayer != null) {
-            stopPlaying();
-        }
-        if (mRecorder != null) {
-            stopRecording();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnStartRecording) {
+            MediaController.getInstance(this).startRecording(mItem.id);
+            showRecordingDialog();
+        } else if (v.getId() == R.id.btnStopRecording) {
+            MediaController.getInstance(this).stopRecording();
+            dismissRecordingDialog();
+            mDetailFragment.reload();
         }
     }
 }

@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -25,9 +24,6 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * A fragment representing a single Question detail screen.
@@ -43,16 +39,13 @@ public class QuestionDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private static final String LOG_TAG = "QuestionDetailFragment";
     private static final String STORAGE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/avatar";
-    boolean mStartRecording = true;
     /**
      * The dummy content this fragment is presenting.
      */
     private DummyContent.QuestionItem mItem = null;
-    private IMediaController mMediaController;
     private ListView mRecordsListView = null;
     private RecordingDbHelper mDBHelper = null;
     private SimpleCursorAdapter mRecordCursorAdapter = null;
-    private String mFileName;
     private View.OnClickListener mOnRecordClickCallback;
 
     /**
@@ -90,25 +83,6 @@ public class QuestionDetailFragment extends Fragment {
         if (mItem == null)
             Log.e(LOG_TAG, "onCreateView mItem is null");
 
-        mOnRecordClickCallback = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.btnStartRecording) {
-                    if (mStartRecording) {
-                        mFileName = getUniqueFilename(STORAGE_PATH);
-                        mMediaController.startRecording(mFileName);
-                        ((Button) v).setText("Stop recording");
-                    } else {
-                        mMediaController.stopRecording();
-                        mDBHelper.insert(mItem.id, mFileName, DateFormat.getDateTimeInstance().format(new Date()));
-                        ((Button) v).setText("Start recording");
-                        reload();
-                    }
-                    mStartRecording = !mStartRecording;
-                }
-            }
-        };
-
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.question_subject_english)).setText(mItem.titleEnglish);
@@ -123,16 +97,24 @@ public class QuestionDetailFragment extends Fragment {
         return rootView;
     }
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mMediaController = (IMediaController) activity;
+            mOnRecordClickCallback = (View.OnClickListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement IMediaController");
+            throw new ClassCastException(activity.toString() + " must implement View.OnClickListener");
         }
         mDBHelper = new RecordingDbHelper(activity);
         Log.d(LOG_TAG, "onAttach");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mDBHelper = null;
     }
 
     @Override
@@ -175,7 +157,8 @@ public class QuestionDetailFragment extends Fragment {
                             cursor.getColumnIndexOrThrow(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME)
                     );
                     cursor.close();
-                    mMediaController.startPlaying(filename);
+                    //mMediaController.startPlaying(filename);
+                    MediaController.getInstance(getActivity()).startPlaying(filename);
                 }
                 return true;
             }
@@ -250,17 +233,5 @@ public class QuestionDetailFragment extends Fragment {
         if (mRecordCursorAdapter != null) {
             mRecordCursorAdapter.changeCursor(fetchAllRecordings());
         }
-    }
-
-    private String getUniqueFilename(String path) {
-        File file = new File(path);
-        if (!file.exists()) {
-            Log.e(LOG_TAG, "getUniqueFilename failed because the path specified does not exists: " + path);
-            return null;
-        }
-        String format = "yyyy-MM-dd-HH-mm-ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        String filename = "/voice-" + sdf.format(new Date()) + ".3gp";
-        return path + filename;
     }
 }
