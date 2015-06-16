@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:id="@+id/txtRecordingTime"
+        style="@style/Base.TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recording is in progress. Please keep speaking." />
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnStopRecording"

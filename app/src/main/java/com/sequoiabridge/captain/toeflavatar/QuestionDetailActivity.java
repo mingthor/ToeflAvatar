@@ -20,7 +20,7 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
  * more than a {@link QuestionDetailFragment}.
  */
 public class QuestionDetailActivity extends AppCompatActivity
-        implements View.OnClickListener {
+        implements View.OnClickListener, RecordingDialogFragment.UserInteractionListener {
 
     private static final String LOG_TAG = "QuestionDetailActivity";
     private QuestionDetailFragment mDetailFragment = null;
@@ -79,13 +79,8 @@ public class QuestionDetailActivity extends AppCompatActivity
     }
 
     public void showRecordingDialog() {
-        mDialogFragment = RecordingDialogFragment.newInstance("Recording", "Recording in progress");
+        mDialogFragment = RecordingDialogFragment.newInstance("Recording in progress", "Recording time: 10s");
         mDialogFragment.show(getFragmentManager(), "Recording");
-    }
-
-    public void dismissRecordingDialog() {
-        if (mDialogFragment != null)
-            mDialogFragment.dismiss();
     }
 
     @Override
@@ -99,10 +94,12 @@ public class QuestionDetailActivity extends AppCompatActivity
         if (v.getId() == R.id.btnStartRecording) {
             MediaController.getInstance(this).startRecording(mItem.id);
             showRecordingDialog();
-        } else if (v.getId() == R.id.btnStopRecording) {
-            MediaController.getInstance(this).stopRecording();
-            dismissRecordingDialog();
-            mDetailFragment.reload();
         }
+    }
+
+    @Override
+    public void onStopRecordingRequested() {
+        MediaController.getInstance(this).stopRecording();
+        mDetailFragment.reload();
     }
 }

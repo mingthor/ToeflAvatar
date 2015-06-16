@@ -7,6 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class RecordingDialogFragment extends DialogFragment {
@@ -14,9 +18,32 @@ public class RecordingDialogFragment extends DialogFragment {
     private static final String LOG_TAG = "RecordingDialogFragment";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private View.OnClickListener mClickCallback = null;
+    private static final String ARG_PARAM1 = "title";
+    private static final String ARG_PARAM2 = "subtitle";
+    private UserInteractionListener mInteractionListener;
+    private TextView mRemainingTimeTextView;
+    private Timer mTimer;
+    private int mTimerCount = 10;
+    TimerTask mTimerTask = new TimerTask() {
+
+        @Override
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mTimerCount--;
+                    if (mTimerCount >= 0) {
+                        mRemainingTimeTextView.setText("Recording time: " +
+                                Integer.toString(mTimerCount) + "s");
+                    } else {
+                        mTimer.cancel();
+                        mTimer.purge();
+                        dismiss();
+                    }
+                }
+            });
+        }
+    };
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -47,19 +74,31 @@ public class RecordingDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recording_dialog, container);
-        getDialog().setTitle("Listening ...");
+        String title = getArguments().getString(ARG_PARAM1);
+        String subtitle = getArguments().getString(ARG_PARAM2);
+        getDialog().setTitle(title);
         getDialog().setCanceledOnTouchOutside(false);
 
-        (view.findViewById(R.id.btnStopRecording)).setOnClickListener(mClickCallback);
+        mRemainingTimeTextView = (TextView) view.findViewById(R.id.txtRecordingTime);
+        mRemainingTimeTextView.setText(subtitle);
+
+        (view.findViewById(R.id.btnStopRecording)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mTimer = new Timer();
 
         try {
-            mClickCallback = (View.OnClickListener) activity;
+            mInteractionListener = (UserInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement View.OnClickListener");
         }
@@ -68,12 +107,28 @@ public class RecordingDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mTimer.scheduleAtFixedRate(mTimerTask, 0, 1000);
+        Log.d(LOG_TAG, "onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mTimer.cancel();
+        mInteractionListener.onStopRecordingRequested();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
-
-        mClickCallback = null;
+        mTimer.purge();
+        mInteractionListener = null;
         Log.d(LOG_TAG, "onDetach");
     }
 
-
+    public interface UserInteractionListener {
+        void onStopRecordingRequested();
+    }
 }
