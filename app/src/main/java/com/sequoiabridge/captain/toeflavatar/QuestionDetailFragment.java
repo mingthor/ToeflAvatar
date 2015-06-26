@@ -174,13 +174,15 @@ public class QuestionDetailFragment extends Fragment {
         // The desired columns to be bound
         String[] projection = {
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
-                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_DURATION
         };
 
         // the XML defined views which the data will be bound to
         int[] to = new int[] {
                 R.id.record_file,
                 R.id.record_timestamp,
+                R.id.record_duration
         };
 
         mRecordCursorAdapter = new SimpleCursorAdapter(
@@ -210,14 +212,16 @@ public class QuestionDetailFragment extends Fragment {
         String[] projection = {
                 DataContract.RecordingEntry._ID,
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_PATH,
                 DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
-                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP,
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_DURATION
         };
 
         Cursor cursor = db.query(
                 DataContract.RecordingEntry.TABLE_NAME,  // The table to query
                 projection,                            // The columns to return
-                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID + "=?",               // The columns for the WHERE clause
+                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID + "=?",   // The columns for the WHERE clause
                 new String[]{mItem.id},                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups

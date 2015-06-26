@@ -2,7 +2,6 @@ package com.sequoiabridge.captain.toeflavatar.data;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -21,7 +20,9 @@ public class RecordingDbHelper extends SQLiteOpenHelper {
                     DataContract.RecordingEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID + TEXT_TYPE + COMMA_SEP +
                     DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
-                    DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME + TEXT_TYPE +
+                    DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME + TEXT_TYPE + COMMA_SEP +
+                    DataContract.RecordingEntry.COLUMN_NAME_ENTRY_PATH + TEXT_TYPE + COMMA_SEP +
+                    DataContract.RecordingEntry.COLUMN_NAME_ENTRY_DURATION + TEXT_TYPE +
                     // Any other options for the CREATE command
                     " )";
 
@@ -53,28 +54,14 @@ public class RecordingDbHelper extends SQLiteOpenHelper {
         db.insert(DataContract.RecordingEntry.TABLE_NAME, null, values);
     }
 
-    public Cursor queryAll() {
-        SQLiteDatabase db = getReadableDatabase();
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                DataContract.RecordingEntry._ID,
-                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID,
-                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME,
-                DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP
-        };
-
-        Cursor cursor = db.query(
-                DataContract.RecordingEntry.TABLE_NAME,  // The table to query
-                projection,                            // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
-        );
-        if (cursor != null) cursor.moveToFirst();
-
-        return cursor;
+    public void insert(String questionId, String path, String filename, String timestamp, long durationInSeconds) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_QUESTION_ID, questionId);
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_PATH, path);
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME, filename);
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_TIMESTAMP, timestamp);
+        values.put(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_DURATION, durationInSeconds);
+        db.insert(DataContract.RecordingEntry.TABLE_NAME, null, values);
     }
 }

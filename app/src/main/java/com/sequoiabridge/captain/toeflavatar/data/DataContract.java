@@ -10,6 +10,8 @@ public final class DataContract {
         public static final String TABLE_NAME ="Recording";
         public static final String COLUMN_NAME_ENTRY_QUESTION_ID = "question_id";
         public static final String COLUMN_NAME_ENTRY_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME_ENTRY_PATH = "path";
         public static final String COLUMN_NAME_ENTRY_FILENAME = "filename";
+        public static final String COLUMN_NAME_ENTRY_DURATION = "duration";
     }
 }

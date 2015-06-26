@@ -24,6 +24,7 @@ public class MediaController {
     private String mFileName = null;
     private RecordingDbHelper mDBHelper = null;
     private String mQuestionId;
+    private long mStartTime;
 
     private MediaController(Activity activity) {
         mDBHelper = new RecordingDbHelper(activity);
@@ -56,7 +57,7 @@ public class MediaController {
             mPlayer.reset();
         }
         try {
-            mPlayer.setDataSource(filename);
+            mPlayer.setDataSource(STORAGE_PATH + "/" + filename);
             mPlayer.prepareAsync();
         } catch (IOException e) {
             Log.e(LOG_TAG, "startPlaying() prepare() failed");
@@ -75,7 +76,7 @@ public class MediaController {
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
+        mRecorder.setOutputFile(STORAGE_PATH + "/" + mFileName);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -85,14 +86,18 @@ public class MediaController {
         }
 
         mRecorder.start();
+        mStartTime = System.currentTimeMillis();
     }
 
     public void stopRecording() {
         mRecorder.stop();
+        long duration = (System.currentTimeMillis() - mStartTime) / 1000;
         mRecorder.release();
         mRecorder = null;
 
-        mDBHelper.insert(mQuestionId, mFileName, DateFormat.getDateTimeInstance().format(new Date()));
+        mDBHelper.insert(mQuestionId, STORAGE_PATH, mFileName,
+                DateFormat.getDateTimeInstance().format(new Date()),
+                duration);
     }
 
     private String getUniqueFilename(String path) {
@@ -103,7 +108,6 @@ public class MediaController {
         }
         String format = "yyyy-MM-dd-HH-mm-ss";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        String filename = "/voice-" + sdf.format(new Date()) + ".3gp";
-        return path + filename;
+        return sdf.format(new Date()) + ".3gp";
     }
 }
