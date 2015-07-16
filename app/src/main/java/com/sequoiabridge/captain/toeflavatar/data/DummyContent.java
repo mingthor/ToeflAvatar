@@ -29,7 +29,7 @@ public class DummyContent {
      */
     public static Map<String, QuestionItem> ITEM_MAP = new HashMap<>();
 
-    public DummyContent(XmlResourceParser parser) {
+    public static void populateQuestionsList(XmlResourceParser parser) {
         try {
             int eventType = -1;
             QuestionItem question = null;
@@ -39,27 +39,29 @@ public class DummyContent {
                 switch (eventType) {
                     case XmlResourceParser.START_TAG:
                         Log.d("START_TAG", "START_TAG ");
-                        name = parser.getName();
-                        if (name.equals("item")) {
+                        if (name.equals(DataContract.QuestionEntry.QUESTION_ITEM_NODE_NAME)) {
                             question = new QuestionItem();
                         } else if (question != null) {
-                            //TODO:
-                            // need to use switch, and use Contract
-                            if (name.equals("id"))
-                                question.id = parser.nextText();
-                            else if (name.equals("title"))
-                                question.titleEnglish = parser.nextText();
-                            else if (name.equals("title_chinese"))
-                                question.titleChinese = parser.nextText();
-                            else if (name.equals("question"))
-                                question.content = parser.nextText();
+                            switch (name) {
+                                case DataContract.QuestionEntry.QUESTION_ITEM_ATTR_ID:
+                                    question.id = parser.nextText();
+                                    break;
+                                case DataContract.QuestionEntry.QUESTION_ITEM_ATTR_TITLE:
+                                    question.titleEnglish = parser.nextText();
+                                    break;
+                                case DataContract.QuestionEntry.QUESTION_ITEM_ATTR_TITLE_CH:
+                                    question.titleChinese = parser.nextText();
+                                    break;
+                                case DataContract.QuestionEntry.QUESTION_ITEM_ATTR_CONTENT:
+                                    question.content = parser.nextText();
+                                    break;
+                            }
                         }
                         break;
                     case XmlResourceParser.END_TAG:
-                        name = parser.getName();
-                        if (name.equals("item")) {
+                        if (name.equals(DataContract.QuestionEntry.QUESTION_ITEM_NODE_NAME)) {
                             addItem(question);
-                            Log.d("END_TAG", "addItem " + question.toString());
+                            question = null;
                         }
                         break;
                 }
@@ -101,7 +103,7 @@ public class DummyContent {
 
         @Override
         public String toString() {
-            return titleEnglish;
+            return this.titleEnglish;
         }
     }
 }

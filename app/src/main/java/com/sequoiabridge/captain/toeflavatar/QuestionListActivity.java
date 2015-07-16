@@ -26,13 +26,12 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 public class QuestionListActivity extends FragmentActivity
         implements QuestionListFragment.Callbacks {
 
+    private static boolean mLibraryInitialized = false;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
-    private DummyContent mLibrary;
-    private static boolean mLibraryInitialized = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class QuestionListActivity extends FragmentActivity
 
         // populate the data only once
         if(! mLibraryInitialized) {
-            mLibrary = new DummyContent(getResources().getXml(R.xml.data));
+            DummyContent.populateQuestionsList(getResources().getXml(R.xml.data));
             mLibraryInitialized = true;
         }
 
