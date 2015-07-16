@@ -2,12 +2,15 @@ package com.sequoiabridge.captain.toeflavatar;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.sequoiabridge.captain.toeflavatar.customviews.PieChart;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -88,6 +91,15 @@ public class RecordingDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
+
+        final PieChart pie = (PieChart) view.findViewById(R.id.Pie);
+        Resources res = getResources();
+        pie.addItem("Agamemnon", 2, res.getColor(R.color.seafoam));
+        pie.addItem("Bocephus", 3.5f, res.getColor(R.color.chartreuse));
+        pie.addItem("Calliope", 2.5f, res.getColor(R.color.emerald));
+        pie.addItem("Daedalus", 3, res.getColor(R.color.bluegrass));
+        pie.addItem("Euripides", 1, res.getColor(R.color.turquoise));
+        pie.addItem("Ganymede", 3, res.getColor(R.color.slate));
 
         return view;
     }

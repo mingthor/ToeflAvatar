@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_recording_dialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,6 +19,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/ic_settings_voice_black" />
+
+        <com.sequoiabridge.captain.toeflavatar.customviews.PieChart
+            android:id="@+id/Pie"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            custom:autoCenterPointerInSlice="true"
+            custom:highlightStrength="1.12"
+            custom:labelColor="@android:color/black"
+            custom:labelHeight="20dp"
+            custom:labelPosition="left"
+            custom:labelWidth="110dp"
+            custom:labelY="85dp"
+            custom:pieRotation="0"
+            custom:pointerRadius="4dp" />
     </LinearLayout>
 
     <Button
