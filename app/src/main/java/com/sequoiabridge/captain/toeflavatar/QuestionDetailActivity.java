@@ -2,8 +2,8 @@ package com.sequoiabridge.captain.toeflavatar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -19,7 +19,7 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link QuestionDetailFragment}.
  */
-public class QuestionDetailActivity extends AppCompatActivity
+public class QuestionDetailActivity extends FragmentActivity
         implements View.OnClickListener, RecordingDialogFragment.UserInteractionListener {
 
     private static final String LOG_TAG = "QuestionDetailActivity";
