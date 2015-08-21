@@ -27,9 +27,6 @@ import java.io.File;
 
 /**
  * A fragment representing a single Question detail screen.
- * This fragment is either contained in a {@link QuestionListActivity}
- * in two-pane mode (on tablets) or a {@link QuestionDetailActivity}
- * on handsets.
  */
 public class QuestionDetailFragment extends Fragment {
     /**

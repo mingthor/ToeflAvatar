@@ -2,8 +2,8 @@ package com.sequoiabridge.captain.toeflavatar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -14,12 +14,11 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
  * An activity representing a single Question detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link QuestionListActivity}.
  * <p/>
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link QuestionDetailFragment}.
  */
-public class QuestionDetailActivity extends FragmentActivity
+public class QuestionDetailActivity extends AppCompatActivity
         implements View.OnClickListener, RecordingDialogFragment.UserInteractionListener {
 
     private static final String LOG_TAG = "QuestionDetailActivity";
@@ -72,7 +71,7 @@ public class QuestionDetailActivity extends FragmentActivity
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, QuestionListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

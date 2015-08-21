@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
 import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 
 /**
@@ -21,35 +20,13 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
  */
 public class QuestionListFragment extends ListFragment {
 
+    private static final String QuestionType = "question_number";
+
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
-    /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sDummyCallbacks;
-
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        void onItemSelected(String id);
-    }
-
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -59,12 +36,30 @@ public class QuestionListFragment extends ListFragment {
         public void onItemSelected(String id) {
         }
     };
+    /**
+     * The fragment's current callback object, which is notified of list item
+     * clicks.
+     */
+    private Callbacks mCallbacks = sDummyCallbacks;
+    /**
+     * The current activated item position. Only used on tablets.
+     */
+    private int mActivatedPosition = ListView.INVALID_POSITION;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public QuestionListFragment() {
+    }
+
+    public static QuestionListFragment newInstance(int type) {
+
+        Bundle args = new Bundle();
+        args.putInt(QuestionType, type);
+        QuestionListFragment fragment = new QuestionListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -149,5 +144,17 @@ public class QuestionListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        /**
+         * Callback for when an item has been selected.
+         */
+        void onItemSelected(String id);
     }
 }
