@@ -3,6 +3,7 @@ package com.sequoiabridge.captain.toeflavatar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -66,7 +67,10 @@ public class QuestionListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getResources().getXml(R.xml.data);
+        int type = getArguments() != null ? getArguments().getInt(QuestionType) : 1;
+        Log.d("QuestionListFragment", "type = " + type);
+        DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), type);
+
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<>(
                 getActivity(),

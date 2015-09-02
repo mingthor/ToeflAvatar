@@ -14,8 +14,6 @@ import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, QuestionListFragment.Callbacks {
 
-    private static boolean mLibraryInitialized = false;
-
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -40,11 +38,7 @@ public class MainActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        // populate the data only once
-        if (!mLibraryInitialized) {
-            DummyContent.populateQuestionsList(getResources().getXml(R.xml.data));
-            mLibraryInitialized = true;
-        }
+        DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), 1);
     }
 
     @Override
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, QuestionListFragment.newInstance(position))
+                .replace(R.id.container, QuestionListFragment.newInstance(position + 1))
                 .commit();
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sequoiabridge.captain.toeflavatar.data.DataContract;
 import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
 
 
@@ -24,7 +25,7 @@ public class QuestionDetailActivity extends AppCompatActivity
     private static final String LOG_TAG = "QuestionDetailActivity";
     private QuestionDetailFragment mDetailFragment = null;
     private RecordingDialogFragment mDialogFragment = null;
-    private DummyContent.QuestionItem mItem = null;
+    private DataContract.QuestionItem mItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

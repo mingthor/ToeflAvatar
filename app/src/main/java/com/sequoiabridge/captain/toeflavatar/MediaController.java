@@ -6,7 +6,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
+import com.sequoiabridge.captain.toeflavatar.data.ToeflAvatarDbHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,12 +22,12 @@ public class MediaController {
     private static MediaPlayer mPlayer = null;
     private static MediaController mInstance = null;
     private String mFileName = null;
-    private RecordingDbHelper mDBHelper = null;
+    private ToeflAvatarDbHelper mDBHelper = null;
     private String mQuestionId;
     private long mStartTime;
 
     private MediaController(Activity activity) {
-        mDBHelper = new RecordingDbHelper(activity);
+        mDBHelper = new ToeflAvatarDbHelper(activity);
     }
 
     public static MediaController getInstance(Activity activity) {
@@ -95,7 +95,7 @@ public class MediaController {
         mRecorder.release();
         mRecorder = null;
 
-        mDBHelper.insert(mQuestionId, STORAGE_PATH, mFileName,
+        mDBHelper.insertRecordingItem(mQuestionId, STORAGE_PATH, mFileName,
                 DateFormat.getDateTimeInstance().format(new Date()),
                 duration);
     }

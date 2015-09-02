@@ -3,8 +3,8 @@
     <string name="title_question_detail">Question Detail</string>
     <string name="title_activity_practice">PracticeActivity</string>
 
-    <string name="title_question1">Section 1</string>
-    <string name="title_question2">Section 2</string>
+    <string name="title_question1">Question 1</string>
+    <string name="title_question2">Question 2</string>
 
     <string name="hello_world">Hello world!</string>
 

@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.sequoiabridge.captain.toeflavatar.data.DataContract;
 import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
-import com.sequoiabridge.captain.toeflavatar.data.RecordingDbHelper;
+import com.sequoiabridge.captain.toeflavatar.data.ToeflAvatarDbHelper;
 
 import java.io.File;
 
@@ -39,9 +39,9 @@ public class QuestionDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.QuestionItem mItem = null;
+    private DataContract.QuestionItem mItem = null;
     private ListView mRecordsListView = null;
-    private RecordingDbHelper mDBHelper = null;
+    private ToeflAvatarDbHelper mDBHelper = null;
     private SimpleCursorAdapter mRecordCursorAdapter = null;
     private View.OnClickListener mOnRecordClickCallback;
 
@@ -103,7 +103,7 @@ public class QuestionDetailFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement View.OnClickListener");
         }
-        mDBHelper = new RecordingDbHelper(activity);
+        mDBHelper = new ToeflAvatarDbHelper(activity);
         Log.d(LOG_TAG, "onAttach");
     }
 

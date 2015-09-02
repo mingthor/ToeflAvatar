@@ -46,4 +46,112 @@
             details to support your response.
         </question>
     </item>
+    <item>
+        <id>7</id>
+        <type>1</type>
+        <title>Your best friend</title>
+        <title_chinese>你最好的朋友</title_chinese>
+        <question>Who is your best friend? Describe this person and explain why he/she is your best
+            friend.
+        </question>
+    </item>
+    <item>
+        <id>8</id>
+        <type>1</type>
+        <title>An embarrassment</title>
+        <title_chinese>尴尬的经历</title_chinese>
+        <question>Talk about an experience in your life that made you feel embarrassed.
+            Describe it and say why it was embarrassing.
+        </question>
+    </item>
+    <item>
+        <id>9</id>
+        <type>2</type>
+        <title>Study individually vs in groups</title>
+        <title_chinese>自学还是组团学习</title_chinese>
+        <question>Some students study for classes individually. Others study in groups. Which way
+            of studying do you prefer, and why?
+        </question>
+    </item>
+    <item>
+        <id>10</id>
+        <type>2</type>
+        <title>Indoor activities vs outdoor</title>
+        <title_chinese>室内活动还是室外活动</title_chinese>
+        <question>Do you prefer indoor activities or outdoor activities. Use specific details and
+            examples to support your explanation.
+        </question>
+    </item>
+    <item>
+        <id>11</id>
+        <type>2</type>
+        <title>Long trips or short trips</title>
+        <title_chinese>长途旅行还是短途旅行</title_chinese>
+        <question>Do you prefer long-term trips or short term trips? Use specific details and
+            examples to support your explanation.
+        </question>
+    </item>
+    <item>
+        <id>12</id>
+        <type>2</type>
+        <title>Always tell the truth</title>
+        <title_chinese>说真话</title_chinese>
+        <question>Do you agree or disagree that people shuold always tell the truth? Use specific
+            details and examples to support your explanation.
+        </question>
+    </item>
+    <item>
+        <id>13</id>
+        <type>2</type>
+        <title>Television has destroyed communication</title>
+        <title_chinese>电视破坏交流</title_chinese>
+        <question>Do you agree that television has destroyed communication among friends and family?
+            Use specific details and examples to support your explanation.
+        </question>
+    </item>
+    <item>
+        <id>14</id>
+        <type>2</type>
+        <title>Live performance vs on TV</title>
+        <title_chinese>看现场演出还是看电视</title_chinese>
+        <question>Do you prefer going to a live performance or watch it on TV?
+            Use specific details and examples to support your explanation.
+        </question>
+    </item>
+    <item>
+        <id>15</id>
+        <type>1</type>
+        <title>A famous figure</title>
+        <title_chinese>一个名人</title_chinese>
+        <question>Name a famous or influential figure that has inspired you. Describe this person
+            and say why he/she has been inspirational to you.
+        </question>
+    </item>
+    <item>
+        <id>16</id>
+        <type>1</type>
+        <title>A difficulty you have overcome</title>
+        <title_chinese>克服困难的经历</title_chinese>
+        <question>Talk about a difficulty you have overcome in your life. Describe the experience
+            and say why it was difficult to overcome.
+        </question>
+    </item>
+    <item>
+        <id>17</id>
+        <type>1</type>
+        <title>A helpful resource</title>
+        <title_chinese>有帮助的资源</title_chinese>
+        <question>Tell me about a time when you used a resource to help you do something better
+            than before. Describe it and explain why it was helpful to you.
+        </question>
+    </item>
+    <item>
+        <id>18</id>
+        <type>1</type>
+        <title>An important class</title>
+        <title_chinese>一堂重要的课</title_chinese>
+        <question>Describe a class you have taken in school and explain why the class was
+            important to you. Include details and examples to support your explanation
+        </question>
+    </item>
 </questions>
