@@ -68,12 +68,13 @@ public class DummyContent {
                         }
                         break;
                     case XmlResourceParser.END_TAG:
-                        assert (question != null);
-                        if (name.equals(DataContract.QuestionEntry.QUESTION_ITEM_NODE_NAME) &&
-                                Integer.parseInt(question.type) == type &&
-                                !ITEM_MAP.containsKey(question.id)) {
-                            addItem(question);
-                            question = null;
+
+                        if (name.equals(DataContract.QuestionEntry.QUESTION_ITEM_NODE_NAME)) {
+                            assert (question != null);
+                            if (type == 0 || Integer.parseInt(question.type) == type) {
+                                addItem(question);
+                                question = null;
+                            }
                         }
                         break;
                 }

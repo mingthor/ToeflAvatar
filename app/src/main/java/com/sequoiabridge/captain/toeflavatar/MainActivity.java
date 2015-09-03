@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), 1);
+        DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), 0);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, QuestionListFragment.newInstance(position + 1))
+                .replace(R.id.container, QuestionListFragment.newInstance(position))
                 .commit();
     }
 

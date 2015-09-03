@@ -102,6 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
+                        "All Questions",
                         getString(R.string.title_question1),
                         getString(R.string.title_question2),
                 }));

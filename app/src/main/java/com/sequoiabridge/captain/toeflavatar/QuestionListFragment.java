@@ -67,7 +67,7 @@ public class QuestionListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int type = getArguments() != null ? getArguments().getInt(QuestionType) : 1;
+        int type = getArguments() != null ? getArguments().getInt(QuestionType) : 0;
         Log.d("QuestionListFragment", "type = " + type);
         DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), type);
 
