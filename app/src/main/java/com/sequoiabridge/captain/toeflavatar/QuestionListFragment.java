@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
@@ -37,6 +36,7 @@ public class QuestionListFragment extends ListFragment {
         public void onItemSelected(String id) {
         }
     };
+    QuestionArrayAdapter mQuestionsAdapter = null;
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -71,12 +71,7 @@ public class QuestionListFragment extends ListFragment {
         Log.d("QuestionListFragment", "type = " + type);
         QuestionDataSource.populateQuestionsList(getResources().getXml(R.xml.data), type);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                QuestionDataSource.ITEMS));
+        setListAdapter(mQuestionsAdapter);
     }
 
     @Override
@@ -100,6 +95,7 @@ public class QuestionListFragment extends ListFragment {
         }
 
         mCallbacks = (Callbacks) activity;
+        mQuestionsAdapter = new QuestionArrayAdapter(activity, QuestionDataSource.ITEMS);
     }
 
     @Override
@@ -108,6 +104,7 @@ public class QuestionListFragment extends ListFragment {
 
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
+        mQuestionsAdapter = null;
     }
 
     @Override

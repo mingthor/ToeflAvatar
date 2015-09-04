@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
      */
     private CharSequence mTitle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
