@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.sequoiabridge.captain.toeflavatar.data.DataContract;
-import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
 
 
 /**
@@ -46,7 +46,7 @@ public class QuestionDetailActivity extends AppCompatActivity
         //
         if (savedInstanceState == null) {
 
-            mItem = DummyContent.ITEM_MAP.get(getIntent().getStringExtra(QuestionDetailFragment.ARG_ITEM_ID));
+            mItem = QuestionDataSource.ITEM_MAP.get(getIntent().getStringExtra(QuestionDetailFragment.ARG_ITEM_ID));
 
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.

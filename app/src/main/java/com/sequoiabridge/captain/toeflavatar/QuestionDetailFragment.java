@@ -20,7 +20,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.sequoiabridge.captain.toeflavatar.data.DataContract;
-import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
 import com.sequoiabridge.captain.toeflavatar.data.ToeflAvatarDbHelper;
 
 import java.io.File;
@@ -36,9 +36,7 @@ public class QuestionDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private static final String LOG_TAG = "QuestionDetailFragment";
     private static final String STORAGE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/avatar";
-    /**
-     * The dummy content this fragment is presenting.
-     */
+
     private DataContract.QuestionItem mItem = null;
     private ListView mRecordsListView = null;
     private ToeflAvatarDbHelper mDBHelper = null;
@@ -68,7 +66,7 @@ public class QuestionDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = QuestionDataSource.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 
@@ -154,7 +152,6 @@ public class QuestionDetailFragment extends Fragment {
                             cursor.getColumnIndexOrThrow(DataContract.RecordingEntry.COLUMN_NAME_ENTRY_FILENAME)
                     );
                     cursor.close();
-                    //mMediaController.startPlaying(filename);
                     MediaController.getInstance(getActivity()).startPlaying(filename);
                 }
                 return true;

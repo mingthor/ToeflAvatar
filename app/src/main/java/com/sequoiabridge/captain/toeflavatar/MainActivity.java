@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
+
+import junit.framework.Assert;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, QuestionListFragment.Callbacks {
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), 0);
+        QuestionDataSource.populateQuestionsList(getResources().getXml(R.xml.data), 0);
     }
 
     @Override
@@ -52,7 +54,8 @@ public class MainActivity extends AppCompatActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        //actionBar.setDisplayShowTitleEnabled(true);
+        Assert.assertNotNull(actionBar);
+        actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
 

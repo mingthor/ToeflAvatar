@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.sequoiabridge.captain.toeflavatar.data.DummyContent;
+import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
 
 /**
  * A list fragment representing a list of Questions. This fragment
@@ -69,14 +69,14 @@ public class QuestionListFragment extends ListFragment {
 
         int type = getArguments() != null ? getArguments().getInt(QuestionType) : 0;
         Log.d("QuestionListFragment", "type = " + type);
-        DummyContent.populateQuestionsList(getResources().getXml(R.xml.data), type);
+        QuestionDataSource.populateQuestionsList(getResources().getXml(R.xml.data), type);
 
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                DummyContent.ITEMS));
+                QuestionDataSource.ITEMS));
     }
 
     @Override
@@ -116,7 +116,7 @@ public class QuestionListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(QuestionDataSource.ITEMS.get(position).id);
     }
 
     @Override

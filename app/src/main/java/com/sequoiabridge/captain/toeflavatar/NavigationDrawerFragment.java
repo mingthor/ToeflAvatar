@@ -29,6 +29,7 @@ import android.widget.Toast;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+    private static final String LOG_TAG = "NavigationDrawerFragment";
     /**
      * Remember the position of the selected item.
      */

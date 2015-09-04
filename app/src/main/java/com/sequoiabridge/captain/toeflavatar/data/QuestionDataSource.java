@@ -1,6 +1,5 @@
 package com.sequoiabridge.captain.toeflavatar.data;
 
-import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
 
@@ -12,27 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p/>
- * TODO: Replace all uses of this class before publishing your app.
- */
-public class DummyContent {
+public class QuestionDataSource {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of question items.
      */
     public static List<DataContract.QuestionItem> ITEMS = new ArrayList<>();
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of question items, by ID.
      */
     public static Map<String, DataContract.QuestionItem> ITEM_MAP = new HashMap<>();
-    public Context context;
 
-    public DummyContent(Context context) {
-        this.context = context;
-    }
 
     public static void populateQuestionsList(XmlResourceParser parser, int type) {
         try {
@@ -44,7 +33,6 @@ public class DummyContent {
                 String name = parser.getName();
                 switch (eventType) {
                     case XmlResourceParser.START_TAG:
-                        Log.d("START_TAG", "START_TAG ");
                         if (name.equals(DataContract.QuestionEntry.QUESTION_ITEM_NODE_NAME)) {
                             question = new DataContract.QuestionItem();
                         } else if (question != null) {
@@ -92,6 +80,5 @@ public class DummyContent {
 
         Log.d("QuestionItem", item.toString());
     }
-
 
 }
