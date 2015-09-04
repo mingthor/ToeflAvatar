@@ -103,7 +103,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
-                        "All Questions",
+                        getString(R.string.title_question_all),
                         getString(R.string.title_question1),
                         getString(R.string.title_question2),
                 }));
@@ -248,7 +248,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.action_example), Toast.LENGTH_SHORT).show();
             return true;
         }
 

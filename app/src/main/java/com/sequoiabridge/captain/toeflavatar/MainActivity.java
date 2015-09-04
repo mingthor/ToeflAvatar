@@ -50,6 +50,18 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, QuestionListFragment.newInstance(position))
                 .commit();
+
+        switch (position) {
+            case 1:
+                mTitle = getString(R.string.title_question1);
+                break;
+            case 2:
+                mTitle = getString(R.string.title_question2);
+                break;
+            default:
+                mTitle = getString(R.string.title_question_all);
+                break;
+        }
     }
 
     public void restoreActionBar() {

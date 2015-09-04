@@ -50,7 +50,7 @@ public class QuestionDataSource {
                                     question.titleChinese = parser.nextText();
                                     break;
                                 case DataContract.QuestionEntry.QUESTION_ITEM_ATTR_CONTENT:
-                                    question.content = parser.nextText();
+                                    question.content = parser.nextText().replaceAll("\\s+", " ");
                                     break;
                             }
                         }
