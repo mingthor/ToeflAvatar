@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

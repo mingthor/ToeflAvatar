@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
+import com.sequoiabridge.toeflavatar.data.QuestionDataSource;
 
 import junit.framework.Assert;
 

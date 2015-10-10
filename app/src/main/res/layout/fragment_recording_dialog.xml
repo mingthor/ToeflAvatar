@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_settings_voice_black" />
 
-        <com.sequoiabridge.captain.toeflavatar.customviews.PieChart
+        <com.sequoiabridge.toeflavatar.customviews.PieChart
             android:id="@+id/Pie"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

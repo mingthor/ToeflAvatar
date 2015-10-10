@@ -12,7 +12,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-package com.sequoiabridge.captain.toeflavatar.customviews;
+package com.sequoiabridge.toeflavatar.customviews;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -37,7 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-import com.sequoiabridge.captain.toeflavatar.R;
+import com.sequoiabridge.toeflavatar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class PieChart extends ViewGroup {
      *
      * @param context
      * @param attrs   An attribute set which can contain attributes from
-     *                {@link com.sequoiabridge.captain.toeflavatar.customviews.PieChart} as well as attributes inherited
+     *                {@link com.sequoiabridge.toeflavatar.customviews.PieChart} as well as attributes inherited
      *                from {@link View}.
      */
     public PieChart(Context context, AttributeSet attrs) {

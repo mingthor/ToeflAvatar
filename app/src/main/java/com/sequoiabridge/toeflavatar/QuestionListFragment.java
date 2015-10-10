@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
+import com.sequoiabridge.toeflavatar.data.QuestionDataSource;
 
 /**
  * A list fragment representing a list of Questions. This fragment

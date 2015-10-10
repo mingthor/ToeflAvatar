@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sequoiabridge.captain.toeflavatar.customviews.PieChart;
+import com.sequoiabridge.toeflavatar.customviews.PieChart;
 
 import java.util.Timer;
 import java.util.TimerTask;

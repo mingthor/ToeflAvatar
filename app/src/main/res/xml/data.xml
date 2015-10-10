@@ -42,8 +42,13 @@
         <type>2</type>
         <title>Study in a classroom or take online courses</title>
         <title_chinese>在教室学习还是网上学习</title_chinese>
-        <question>Would you prefer to study in a classroom or take an online course? Use reasons and
-            details to support your response.
+        <directions>State whether you agree or disagree with the following statement. Then explain
+            your reasons, using specific
+            details in your explanation.
+        </directions>
+        <question>
+            Learning through online courses is more effective than learning in the traditional
+            classroom setting
         </question>
     </item>
     <item>
@@ -60,8 +65,8 @@
         <type>1</type>
         <title>An embarrassment</title>
         <title_chinese>尴尬的经历</title_chinese>
-        <question>Talk about an experience in your life that made you feel embarrassed.
-            Describe it and say why it was embarrassing.
+        <question>Talk about an experience in your life that made you feel embarrassed. Describe it
+            and say why it was embarrassing.
         </question>
     </item>
     <item>
@@ -69,8 +74,8 @@
         <type>2</type>
         <title>Study individually vs in groups</title>
         <title_chinese>自学还是组团学习</title_chinese>
-        <question>Some students study for classes individually. Others study in groups. Which way
-            of studying do you prefer, and why?
+        <question>Some students study for classes individually. Others study in groups. Which way of
+            studying do you prefer, and why?
         </question>
     </item>
     <item>
@@ -96,7 +101,7 @@
         <type>2</type>
         <title>Always tell the truth</title>
         <title_chinese>说真话</title_chinese>
-        <question>Do you agree or disagree that people shuold always tell the truth? Use specific
+        <question>Do you agree or disagree that people should always tell the truth? Use specific
             details and examples to support your explanation.
         </question>
     </item>
@@ -114,8 +119,8 @@
         <type>2</type>
         <title>Live performance vs on TV</title>
         <title_chinese>看现场演出还是看电视</title_chinese>
-        <question>Do you prefer going to a live performance or watch it on TV?
-            Use specific details and examples to support your explanation.
+        <question>Do you prefer going to a live performance or watch it on TV? Use specific details
+            and examples to support your explanation.
         </question>
     </item>
     <item>
@@ -141,8 +146,8 @@
         <type>1</type>
         <title>A helpful resource</title>
         <title_chinese>有帮助的资源</title_chinese>
-        <question>Tell me about a time when you used a resource to help you do something better
-            than before. Describe it and explain why it was helpful to you.
+        <question>Tell me about a time when you used a resource to help you do something better than
+            before. Describe it and explain why it was helpful to you.
         </question>
     </item>
     <item>
@@ -150,8 +155,66 @@
         <type>1</type>
         <title>An important class</title>
         <title_chinese>一堂重要的课</title_chinese>
-        <question>Describe a class you have taken in school and explain why the class was
-            important to you. Include details and examples to support your explanation
+        <question>Describe a class you have taken in school and explain why the class was important
+            to you. Include details and examples to support your explanation
         </question>
+    </item>
+    <item>
+        <id>19</id>
+        <type>3</type>
+        <title>Music Coming to Cafeterias</title>
+        <title_chinese>食堂播放音乐</title_chinese>
+        <directions>You will now read a short passage and listen to a talk on the same topic. You
+            will then be asked a
+            question about them. After you hear the question, give yourself 30 seconds to prepare
+            your response.
+            Then record yourself speaking for 60 seconds.
+        </directions>
+        <reading>Mary Dixon, Director of the Student Life Committee, announced yesterday that
+            beginning next
+            semester, university cafeterias will broadcast classical music during mealtimes. “Music
+            will foster
+            a more relaxed atmosphere,” said Dixon. “Students’ lives are hectic, and mealtimes
+            provide
+            important opportunities to take a break and catch up with friends before moving on to
+            the next
+            class or assignment.” Added Dixon, “We’re also hoping that, if we provide the music,
+            students
+            will unplug their personal music devices—their Walkmans™ and MP3 players or whatever—and
+            will spend more time talking to each other. When students have their headphones on,
+            they’re not
+            connecting with each other.”
+        </reading>
+        <audio>
+            <part>q3speaking001p01.mp3</part>
+            <part>q3speaking001p02.mp3</part>
+        </audio>
+        <question>The man expresses his opinion of the university’s plan. State his opinion and
+            explain the reasons.
+        </question>
+        <reading_time>50</reading_time>
+        <preparation_time>30</preparation_time>
+        <response_time>30</response_time>
+    </item>
+    <item>
+        <id>20</id>
+        <type>6</type>
+        <title>Product Quality and Consumer Decision</title>
+        <category>Lecture and Question</category>
+        <directions>You will now listen to part of a lecture. You will then be asked a question
+            about it. After you hear the
+            question, give yourself 20 seconds to prepare your response. Then record yourself
+            speaking for 60 seconds.
+        </directions>
+        <audio>
+            <part>q6speaking002p01.mp3</part>
+        </audio>
+        <image>q6speaking02.jpg</image>
+        <question>Using points and examples from the lecture, explain the two major factors of
+            product quality and
+            how their role in consumer decision making has changed.
+        </question>
+        <preparation_time>20</preparation_time>
+        <response_time>60</response_time>
     </item>
 </questions>

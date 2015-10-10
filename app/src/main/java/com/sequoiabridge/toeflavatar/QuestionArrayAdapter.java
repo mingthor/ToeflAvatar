@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.sequoiabridge.captain.toeflavatar.data.DataContract;
+import com.sequoiabridge.toeflavatar.data.DataContract;
 
 import java.util.List;
 

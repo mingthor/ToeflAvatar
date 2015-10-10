@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -6,7 +6,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-import com.sequoiabridge.captain.toeflavatar.data.ToeflAvatarDbHelper;
+import com.sequoiabridge.toeflavatar.data.ToeflAvatarDbHelper;
 
 import java.io.File;
 import java.io.IOException;

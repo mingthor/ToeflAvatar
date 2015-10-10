@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar;
+package com.sequoiabridge.toeflavatar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,9 +19,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.sequoiabridge.captain.toeflavatar.data.DataContract;
-import com.sequoiabridge.captain.toeflavatar.data.QuestionDataSource;
-import com.sequoiabridge.captain.toeflavatar.data.ToeflAvatarDbHelper;
+import com.sequoiabridge.toeflavatar.data.DataContract;
+import com.sequoiabridge.toeflavatar.data.QuestionDataSource;
+import com.sequoiabridge.toeflavatar.data.ToeflAvatarDbHelper;
 
 import java.io.File;
 

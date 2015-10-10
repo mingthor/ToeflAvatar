@@ -1,4 +1,4 @@
-package com.sequoiabridge.captain.toeflavatar.data;
+package com.sequoiabridge.toeflavatar.data;
 
 import android.content.ContentValues;
 import android.content.Context;
